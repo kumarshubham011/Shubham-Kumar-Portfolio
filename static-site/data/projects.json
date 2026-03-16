@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Demand Forecasting Pipeline",
+    "slug": "demand-forecasting-pipeline",
+    "description": "Automated monthly forecasting for 50,000+ SKUs using ML and statistical models.",
+    "tech": ["Python", "XGBoost", "LightGBM", "SQL", "Azure"],
+    "url": "",
+    "github_url": "",
+    "featured": true
+  },
+  {
+    "title": "WIMO Dashboard",
+    "slug": "wimo-dashboard",
+    "description": "Order tracking dashboard with drilldowns for supply bottlenecks and backorder visibility.",
+    "tech": ["Python", "Dash", "SQL", "Data Visualization"],
+    "url": "",
+    "github_url": "",
+    "featured": true
+  },
+  {
+    "title": "Manual Allocation Optimization Tool",
+    "slug": "allocation-optimization-tool",
+    "description": "Rule + analytics tool to identify SKUs that can be removed from manual allocation flows.",
+    "tech": ["Python", "Pandas", "Optimization"],
+    "url": "",
+    "github_url": "",
+    "featured": false
+  }
+]

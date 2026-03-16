@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Designing Forecasting Workflows That Teams Actually Use",
+    "slug": "forecasting-workflows-adoption",
+    "date": "2025-01-12",
+    "excerpt": "Adoption is not just model accuracy. Here are practical patterns for planner-friendly forecast workflows.",
+    "content": "# Designing Forecasting Workflows That Teams Actually Use\n\nThe best model fails if planning teams cannot trust or use it.\n\n## What helped most\n\n- Keep feature pipelines transparent and versioned.\n- Show error metrics in business terms (bias, service risk).\n- Add planner feedback loops and measure closure rate.\n\n## Outcome\n\nA usable workflow increases trust and sustained adoption."
+  },
+  {
+    "title": "What I Learned Building Dashboards for Supply Leaders",
+    "slug": "dashboards-for-supply-leaders",
+    "date": "2024-10-03",
+    "excerpt": "Clear, decision-oriented dashboards outperform overloaded BI pages every time.",
+    "content": "# What I Learned Building Dashboards for Supply Leaders\n\nDashboards are for decisions, not decoration.\n\n## Principles\n\n- One page per decision.\n- Trend + root cause + action in the same view.\n- Keep refresh and data lineage explicit.\n\nWhen a dashboard maps to a weekly operating rhythm, usage improves naturally."
+  }
+]

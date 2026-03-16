@@ -1,355 +1,80 @@
-# 🌿 Minimal Portfolio
+# 🌿 Minimal Portfolio — Static Website
 
-A Python-first, minimalist personal portfolio website built with FastAPI.
+This repo now ships a static version of the portfolio in `static-site/` to eliminate backend cold starts and improve first-load speed.
 
-## 🎯 Philosophy
+## Why static
+- No Python runtime needed for production.
+- No server cold start.
+- CDN edge delivery for faster global loading.
+- Easy content updates via JSON files.
 
-> "Simplicity is the ultimate sophistication." — Leonardo da Vinci
+## What is included
+- Multi-page site: Home, About, Projects, Blog, Post detail, Contact.
+- Focus Mode (`Shift + F`) with localStorage persistence.
+- Mobile navigation.
+- Projects filtering and blog searching.
+- JSON-based content source.
 
-This portfolio embraces:
-- **Python-first architecture** — FastAPI backend with Jinja2 templates
-- **Radical simplicity** — Every line of code serves a purpose
-- **Calm aesthetics** — Typography, whitespace, and restraint
-- **Zero-cost hosting** — Completely free to deploy and run
+## Project structure
 
----
-
-## 🏗️ System Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        BROWSER                                   │
-│   ┌─────────────────────────────────────────────────────────┐   │
-│   │  HTML + CSS + Minimal JS (Jinja2 Templates)             │   │
-│   └─────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                      FastAPI Backend                             │
-│   ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐   │
-│   │  Routes  │──│ Services │──│  Models  │──│   Schemas    │   │
-│   └──────────┘  └──────────┘  └──────────┘  └──────────────┘   │
-│                              │                                   │
-│   ┌──────────────────────────┴───────────────────────────────┐  │
-│   │              Authentication (JWT)                         │  │
-│   │         Only admin can Create/Update/Delete               │  │
-│   └──────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    SQLite Database                               │
-│   ┌──────────┐  ┌──────────┐  ┌──────────┐                      │
-│   │   User   │  │   Post   │  │  Project │                      │
-│   └──────────┘  └──────────┘  └──────────┘                      │
-└─────────────────────────────────────────────────────────────────┘
+```text
+static-site/
+├── index.html
+├── about.html
+├── projects.html
+├── blog.html
+├── post.html
+├── contact.html
+├── assets/
+│   ├── css/style.css
+│   └── js/
+│       ├── main.js
+│       └── site-data.js
+└── data/
+    ├── projects.json
+    └── posts.json
 ```
 
----
+## Update content
+- Projects: `static-site/data/projects.json`
+- Blog posts: `static-site/data/posts.json`
 
-## 📁 Folder Structure
-
-```
-portfolio/
-├── app/
-│   ├── __init__.py          # App factory
-│   ├── main.py              # FastAPI entry point
-│   ├── config.py            # Configuration & environment
-│   ├── database.py          # SQLite + SQLAlchemy setup
-│   │
-│   ├── models/              # SQLAlchemy ORM models
-│   │   ├── __init__.py
-│   │   ├── user.py          # Admin user model
-│   │   ├── post.py          # Blog post model
-│   │   └── project.py       # Project model
-│   │
-│   ├── schemas/             # Pydantic validation schemas
-│   │   ├── __init__.py
-│   │   ├── user.py
-│   │   ├── post.py
-│   │   └── project.py
-│   │
-│   ├── services/            # Business logic layer
-│   │   ├── __init__.py
-│   │   ├── auth.py          # JWT authentication
-│   │   └── markdown.py      # Markdown rendering
-│   │
-│   ├── routes/              # API & page routes
-│   │   ├── __init__.py
-│   │   ├── pages.py         # Public page routes
-│   │   ├── auth.py          # Login/logout routes
-│   │   ├── admin.py         # Protected CRUD routes
-│   │   └── api.py           # JSON API endpoints
-│   │
-│   ├── templates/           # Jinja2 HTML templates
-│   │   ├── base.html        # Base layout
-│   │   ├── components/      # Reusable components
-│   │   │   ├── nav.html
-│   │   │   ├── footer.html
-│   │   │   └── post_card.html
-│   │   └── pages/           # Page templates
-│   │       ├── home.html
-│   │       ├── about.html
-│   │       ├── projects.html
-│   │       ├── blog.html
-│   │       ├── post.html
-│   │       ├── contact.html
-│   │       ├── login.html
-│   │       └── admin/
-│   │           ├── dashboard.html
-│   │           └── editor.html
-│   │
-│   └── static/              # Static assets
-│       ├── css/
-│       │   └── style.css    # Minimal custom CSS
-│       └── js/
-│           └── main.js      # Minimal JavaScript
-│
-├── tests/                   # Test files
-├── .env.example             # Environment template
-├── requirements.txt         # Python dependencies
-└── README.md                # This file
-```
-
----
-
-## 🗃️ Database Schema
-
-### User (Admin Only)
-| Field          | Type     | Description                    |
-|----------------|----------|--------------------------------|
-| id             | Integer  | Primary key                    |
-| username       | String   | Unique username                |
-| hashed_password| String   | bcrypt hashed password         |
-| created_at     | DateTime | Account creation timestamp     |
-
-### Post (Blog)
-| Field          | Type     | Description                    |
-|----------------|----------|--------------------------------|
-| id             | Integer  | Primary key                    |
-| title          | String   | Post title                     |
-| slug           | String   | URL-friendly identifier        |
-| content        | Text     | Markdown content               |
-| excerpt        | String   | Short preview text             |
-| published      | Boolean  | Is visible to public?          |
-| created_at     | DateTime | Creation timestamp             |
-| updated_at     | DateTime | Last edit timestamp            |
-
-### Project
-| Field          | Type     | Description                    |
-|----------------|----------|--------------------------------|
-| id             | Integer  | Primary key                    |
-| title          | String   | Project name                   |
-| description    | Text     | Markdown description           |
-| tech_stack     | String   | Comma-separated technologies   |
-| url            | String   | Live project URL (optional)    |
-| github_url     | String   | Repository URL (optional)      |
-| featured       | Boolean  | Show on homepage?              |
-| created_at     | DateTime | Creation timestamp             |
-
----
-
-## 🔐 Authentication Flow
-
-```
-┌──────────────────────────────────────────────────────────────┐
-│                    AUTHENTICATION FLOW                        │
-├──────────────────────────────────────────────────────────────┤
-│                                                               │
-│  1. Admin visits /login                                       │
-│           │                                                   │
-│           ▼                                                   │
-│  2. Submits username + password                               │
-│           │                                                   │
-│           ▼                                                   │
-│  3. Server validates credentials                              │
-│           │                                                   │
-│     ┌─────┴─────┐                                            │
-│     │           │                                            │
-│  Invalid     Valid                                            │
-│     │           │                                            │
-│     ▼           ▼                                            │
-│  Error      4. Create JWT token                               │
-│  shown          │                                            │
-│                 ▼                                            │
-│           5. Set HTTP-only cookie                            │
-│                 │                                            │
-│                 ▼                                            │
-│           6. Redirect to /admin                              │
-│                 │                                            │
-│                 ▼                                            │
-│           7. Future requests include cookie                  │
-│                 │                                            │
-│                 ▼                                            │
-│           8. Middleware validates JWT                        │
-│                 │                                            │
-│                 ▼                                            │
-│           9. Access granted to protected routes              │
-│                                                               │
-└──────────────────────────────────────────────────────────────┘
-```
-
-**Security Features:**
-- JWT tokens with expiration
-- HTTP-only cookies (prevents XSS)
-- Password hashing with bcrypt
-- Single admin user (no public registration)
-
----
-
-## ✨ Unique Feature: Focus Mode
-
-Press `Shift + F` anywhere on the site to toggle **Focus Mode**:
-- Fades navigation and footer
-- Centers content with breathing room
-- Reduces visual noise for reading
-
-This is implemented with ~30 lines of vanilla JavaScript, demonstrating that delightful interactions don't need heavy frameworks.
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Python 3.9+
-- pip
-
-### Local Development
-
+## Local preview
 ```bash
-# 1. Clone and enter directory
-cd portfolio
-
-# 2. Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Set up environment
-cp .env.example .env
-# Edit .env with your settings
-
-# 5. Initialize database with admin user
-python -c "from app.database import init_db; init_db()"
-
-# 6. Run development server
-uvicorn app.main:app --reload
-
-# 7. Open http://localhost:8000
+cd static-site
+python3 -m http.server 8080
+# open http://localhost:8080
 ```
 
 ---
 
-## 🌐 Free Deployment Guide
+## Recommended free deployment
 
-### Option 1: Render (Recommended)
+### ✅ Cloudflare Pages (best free + fast option)
+Cloudflare Pages is recommended because it is free for this use case, globally cached, and has no cold start.
 
-1. **Create account** at [render.com](https://render.com)
+### Step-by-step deployment guide
 
-2. **Connect GitHub** repository
-
-3. **Create Web Service**
-   - Build Command: `pip install -r requirements.txt`
-   - Start Command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-
-4. **Add Environment Variables**
+1. Push your branch to GitHub:
+   ```bash
+   git push -u origin <your-branch>
    ```
-   SECRET_KEY=your-secret-key-here
-   ADMIN_USERNAME=your-username
-   ADMIN_PASSWORD=your-secure-password
-   DATABASE_URL=sqlite:///./portfolio.db
-   ```
+2. Open Cloudflare Dashboard → **Workers & Pages** → **Create application** → **Pages**.
+3. Choose **Connect to Git** and select your GitHub repo.
+4. Configure build settings:
+   - Framework preset: `None`
+   - Build command: *(leave empty)*
+   - Build output directory: `static-site`
+5. Click **Save and Deploy**.
+6. After deploy completes, open your `*.pages.dev` URL.
+7. (Optional) Add custom domain in Pages project → **Custom domains**.
 
-5. **Deploy** — Render auto-deploys on push
-
-### Option 2: Fly.io
-
-1. Install flyctl: `curl -L https://fly.io/install.sh | sh`
-
-2. Login: `fly auth login`
-
-3. Create app: `fly launch`
-
-4. Deploy: `fly deploy`
-
-### Option 3: Railway
-
-1. Visit [railway.app](https://railway.app)
-2. Connect GitHub
-3. Add environment variables
-4. Deploy automatically
+### Recommended production settings
+- Enable Cloudflare caching defaults (already on for static assets).
+- Keep asset paths relative (already done) so previews and production both work.
+- Add a custom domain for better branding.
 
 ---
 
-## 🎨 Design Philosophy
-
-### Colors (3 max)
-- **Primary**: `#1a1a2e` — Deep midnight blue
-- **Accent**: `#e94560` — Warm coral
-- **Background**: `#fafafa` — Soft white
-
-### Typography
-- **Headings**: Playfair Display — elegant serif
-- **Body**: Source Sans Pro — clean sans-serif
-
-### Spacing
-- Generous whitespace
-- Consistent rhythm (8px grid)
-- Content max-width: 680px (optimal reading)
-
----
-
-## 📚 Learning Resources
-
-This project is designed to teach:
-
-1. **FastAPI Basics**
-   - Routes and path operations
-   - Dependency injection
-   - Request/response handling
-
-2. **SQLAlchemy ORM**
-   - Model definitions
-   - Relationships
-   - Queries and CRUD
-
-3. **Jinja2 Templates**
-   - Template inheritance
-   - Filters and macros
-   - Context passing
-
-4. **JWT Authentication**
-   - Token creation/validation
-   - Cookie handling
-   - Protected routes
-
-5. **Clean Code Principles**
-   - Separation of concerns
-   - Single responsibility
-   - Clear naming
-
----
-
-## 🔮 Future Enhancements
-
-- [ ] Image upload for posts
-- [ ] RSS feed generation
-- [ ] Reading time estimation
-- [ ] View count analytics
-- [ ] Tags and categories
-- [ ] Search functionality
-- [ ] Dark/light theme toggle
-- [ ] Syntax highlighting for code
-
----
-
-## 📄 License
-
-MIT License — Use freely, learn deeply.
-
----
-
-Built with 🌿 simplicity and Python.
+## Notes
+If you want admin editing while staying static, the next step is adding a Git-based CMS (like Decap CMS) that writes to JSON/Markdown and triggers auto-deploy.
