@@ -52,11 +52,11 @@ STATIC_DIR = APP_DIR / "static"
 async def lifespan(app: FastAPI):
     """
     Application lifespan manager.
-    
+
     This function runs:
     - Before the app starts accepting requests (startup)
     - After the app stops accepting requests (shutdown)
-    
+
     We use it to:
     - Initialize the database
     - Set up any required resources
@@ -65,26 +65,26 @@ async def lifespan(app: FastAPI):
     # STARTUP
     # -------------------------------------------------------------------------
     print("🚀 Starting Portfolio Application...")
-    
+
     # Initialize database (creates tables if needed)
     init_db()
-    
+
     # Set up Jinja2 templates
     templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
-    
+
     # Add custom filters to Jinja2
     # Filters can be used in templates: {{ content | markdown }}
     templates.env.filters["markdown"] = markdown_filter
     templates.env.filters["reading_time"] = estimate_reading_time
-    
+
     # Store templates in app state (accessible in routes)
     app.state.templates = templates
-    
+
     print("✅ Application ready!")
-    
+
     # Yield control to the application
     yield
-    
+
     # -------------------------------------------------------------------------
     # SHUTDOWN
     # -------------------------------------------------------------------------
@@ -144,7 +144,7 @@ app.include_router(admin_router)
 async def not_found_handler(request: Request, exc):
     """
     Custom 404 error page.
-    
+
     Shows a friendly error message instead of plain text.
     """
     templates = request.app.state.templates
@@ -162,7 +162,7 @@ async def not_found_handler(request: Request, exc):
 async def server_error_handler(request: Request, exc):
     """
     Custom 500 error page.
-    
+
     Shows a friendly error message for server errors.
     """
     templates = request.app.state.templates
@@ -184,7 +184,7 @@ async def server_error_handler(request: Request, exc):
 async def health_check():
     """
     Health check endpoint for deployment platforms.
-    
+
     Used by Render, Railway, etc. to verify the app is running.
     """
     return {"status": "healthy"}
@@ -198,10 +198,10 @@ if __name__ == "__main__":
     # This block runs when you execute: python app/main.py
     # For development only - use uvicorn directly in production
     import uvicorn
-    
+
     uvicorn.run(
         "app.main:app",
         host="127.0.0.1",
-        port=8000,
+        port=8080,
         reload=True,  # Auto-reload on code changes
     )
