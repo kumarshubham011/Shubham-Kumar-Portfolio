@@ -41,7 +41,7 @@ RUN chown -R appuser:appuser /app
 USER appuser
 
 # Expose port
-EXPOSE $PORT
+EXPOSE 8080
 
 # Start command
 CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}
