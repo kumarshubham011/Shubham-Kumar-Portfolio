@@ -7,4 +7,4 @@
 # The "web" process type handles HTTP requests.
 # =============================================================================
 
-web: uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}
+web: uvicorn app.main:app --host 0.0.0.0 --port $PORT
