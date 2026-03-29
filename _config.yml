@@ -1,0 +1,69 @@
+# ─────────────────────────────────────────────
+#  Site configuration
+#  Edit the fields below — everything else can
+#  stay as-is unless you know what you're doing
+# ─────────────────────────────────────────────
+
+title: "Shubham Kumar"
+tagline: "Supply Chain & ML Engineer"
+description: "Building ML systems and analytics solutions at Becton Dickinson."
+url: "https://kumarshubham011.github.io"   # change to your GitHub Pages URL
+baseurl: ""                                 # leave empty unless hosting in a subfolder
+
+# Your links — remove any you don't want shown
+author:
+  name: "Shubham Kumar"
+  email: "kumarshubham141200@gmail.com"
+  github: "https://github.com/kumarshubham011"
+  linkedin: "https://linkedin.com/in/shubham4kumar"
+  leetcode: "https://leetcode.com/u/kumar_shubham14/"
+  company: "Becton Dickinson"
+  company_url: "https://www.bd.com"
+  location: "New Delhi, India"
+
+# ─────────────────────────────────────────────
+#  Jekyll build settings — don't touch these
+# ─────────────────────────────────────────────
+
+theme: null
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+markdown: kramdown
+highlighter: rouge
+
+kramdown:
+  input: GFM                  # GitHub-flavoured markdown
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: "highlight"
+    block:
+      line_numbers: false
+
+# Collections let us treat projects like blog posts
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "projects"
+    values:
+      layout: "project"
+
+# Files Jekyll should ignore
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - README.md
+  - "*.sh"

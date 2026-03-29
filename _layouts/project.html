@@ -1,0 +1,35 @@
+---
+layout: default
+---
+
+<article class="container">
+
+  <header class="post-header">
+    <h1>{{ page.title }}</h1>
+    {% if page.tech_stack %}
+    <div class="tech-stack" style="justify-content: center; margin-top: 1rem;">
+      {% assign techs = page.tech_stack | split: ", " %}
+      {% for tech in techs %}
+        <span class="tech-tag">{{ tech }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  <footer class="post-footer">
+    <div class="project-links">
+      {% if page.url_live %}
+        <a href="{{ page.url_live }}" target="_blank" rel="noopener">View Live →</a>
+      {% endif %}
+      {% if page.github %}
+        <a href="{{ page.github }}" target="_blank" rel="noopener">GitHub</a>
+      {% endif %}
+    </div>
+    <a href="{{ '/projects' | relative_url }}" class="back-link">← All projects</a>
+  </footer>
+
+</article>

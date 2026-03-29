@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    {% if page.title %}{{ page.title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}
+  </title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+
+  <!-- Preconnect to external resources we load later -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- Our stylesheet -->
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+  <!-- Mermaid (flowcharts/diagrams) — loaded here so it's available on every page -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js" defer></script>
+
+  {% seo %}
+</head>
+<body>
+
+  <!-- Focus mode indicator — shows briefly when Shift+F is pressed -->
+  <div id="focus-indicator" aria-hidden="true">Focus Mode</div>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="{{ '/' | relative_url }}" class="nav-logo">shubham_kumar</a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="{{ '/' | relative_url }}" class="nav-link">Home</a></li>
+        <li><a href="{{ '/about' | relative_url }}" class="nav-link">About</a></li>
+        <li><a href="{{ '/projects' | relative_url }}" class="nav-link">Projects</a></li>
+        <li><a href="{{ '/blog' | relative_url }}" class="nav-link">Blog</a></li>
+        <li><a href="{{ '/contact' | relative_url }}" class="nav-link">Contact</a></li>
+      </ul>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Page content ── -->
+  <main class="main">
+    {{ content }}
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <p class="footer-text">Built by Shubham</p>
+    <p class="footer-hint">
+      <kbd>Shift</kbd> + <kbd>F</kbd> for focus mode &nbsp;·&nbsp;
+      <kbd>Shift</kbd> + <kbd>D</kbd> for diagrams
+    </p>
+  </footer>
+
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+</body>
+</html>
