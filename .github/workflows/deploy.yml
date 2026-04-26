@@ -27,6 +27,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Add linux platform to Gemfile.lock
+        run: bundle lock --add-platform x86_64-linux
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:

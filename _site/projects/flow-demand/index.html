@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    Flow Demand — Forecasting Pipeline — Shubham Kumar
+  </title>
+  <meta name="description" content="End-to-end ML forecasting system that replaced manual Excel-based forecasts for 50,000+ SKUs — combining ABC×XYZ segmentation, multi-model selection, and expanding-window backtesting to achieve 93% planner adoption.">
+
+  <!-- Preconnect to external resources we load later -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- Our stylesheet -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Flow Demand — Forecasting Pipeline | Shubham Kumar</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Flow Demand — Forecasting Pipeline" />
+<meta name="author" content="Shubham Kumar" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="End-to-end ML forecasting system that replaced manual Excel-based forecasts for 50,000+ SKUs — combining ABC×XYZ segmentation, multi-model selection, and expanding-window backtesting to achieve 93% planner adoption." />
+<meta property="og:description" content="End-to-end ML forecasting system that replaced manual Excel-based forecasts for 50,000+ SKUs — combining ABC×XYZ segmentation, multi-model selection, and expanding-window backtesting to achieve 93% planner adoption." />
+<link rel="canonical" href="http://localhost:4000/projects/flow-demand/" />
+<meta property="og:url" content="http://localhost:4000/projects/flow-demand/" />
+<meta property="og:site_name" content="Shubham Kumar" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-26T17:54:01+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Flow Demand — Forecasting Pipeline" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Shubham Kumar"},"dateModified":"2026-04-26T17:54:01+05:30","datePublished":"2026-04-26T17:54:01+05:30","description":"End-to-end ML forecasting system that replaced manual Excel-based forecasts for 50,000+ SKUs — combining ABC×XYZ segmentation, multi-model selection, and expanding-window backtesting to achieve 93% planner adoption.","headline":"Flow Demand — Forecasting Pipeline","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/projects/flow-demand/"},"url":"http://localhost:4000/projects/flow-demand/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+
+  <!-- Focus mode indicator — shows briefly when Shift+F is pressed -->
+  <div id="focus-indicator" aria-hidden="true">Focus Mode</div>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">shubham_kumar</a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/about" class="nav-link">About</a></li>
+        <li><a href="/projects" class="nav-link">Projects</a></li>
+        <li><a href="/blog" class="nav-link">Blog</a></li>
+        <li><a href="/contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Page content ── -->
+  <main class="main">
+    <article class="container">
+
+  <header class="post-header">
+    <h1>Flow Demand — Forecasting Pipeline</h1>
+    
+    <div class="tech-stack" style="justify-content: center; margin-top: 1rem;">
+      
+      
+        <span class="tech-tag">Python</span>
+      
+        <span class="tech-tag">XGBoost</span>
+      
+        <span class="tech-tag">LightGBM</span>
+      
+        <span class="tech-tag">Pandas</span>
+      
+        <span class="tech-tag">SQL</span>
+      
+        <span class="tech-tag">Azure</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content">
+    <h2 id="what-it-does">What it does</h2>
+
+<p>Monthly training and scoring across 50,000+ time-series. Each SKU gets the model that actually performs best on its own history — not a single global model applied uniformly. The system runs end-to-end: clean the data, segment by behaviour, train candidates, select by backtest, score forward, deliver to planners.</p>
+
+<h2 id="pipeline">Pipeline</h2>
+
+<pre><code class="language-mermaid">flowchart TD
+    RAW["📦 Raw Transactional Data\n50,000+ SKUs"] --&gt; CLEAN["🧹 EWM Outlier Capping\nPreserve trend, clip spikes"]
+    CLEAN --&gt; SEG["🗂️ ABC × XYZ Segmentation\nValue × Volatility matrix"]
+    SEG --&gt; FEAT["⚙️ Feature Engineering\nLags · Rolling stats · YoY · Seasonality"]
+    FEAT --&gt; TRAIN["🏋️ Model Training\nXGBoost · LightGBM · Holt-Winters\nMoving Avg · Weighted Avg"]
+    TRAIN --&gt; BACK["📊 Expanding-Window Backtesting\nMAE + |BIAS| scored per SKU"]
+    BACK --&gt; SEL["✅ Best Model Selection\nPer-SKU winner"]
+    SEL --&gt; SCORE["🔮 Forward Forecast\nMonthly scoring run"]
+    SCORE --&gt; OUT["📤 Planner Output\nForecast + confidence + model tag"]
+</code></pre>
+
+<h2 id="key-design-decisions">Key design decisions</h2>
+
+<p><strong>Outlier handling with EWM</strong> — Simple clipping destroys trend. Exponentially weighted mean and std preserve the shape of the series while clipping extreme spikes that would otherwise bias model training.</p>
+
+<p><strong>ABC×XYZ segmentation</strong> — A×X SKUs (high-value, stable demand) behave completely differently from C×Z SKUs (low-value, erratic). Segmenting before training means each cluster gets appropriate model candidates and scoring weights rather than a one-size-fits-all approach.</p>
+
+<p><strong>Expanding-window backtesting</strong> — Rolling window backtests leak future data. Expanding window trains on everything up to month T and scores month T+1, stepping forward. Each SKU’s historical error is computed on genuinely unseen data.</p>
+
+<p><strong>Per-SKU model selection</strong> — Five candidate models compete on each time-series. The winner is whichever minimises <code class="language-plaintext highlighter-rouge">MAE + |BIAS|</code> across the backtest window. A single global champion would lose on the long tail.</p>
+
+<p><strong>Data leakage guard</strong> — All lag and rolling features are shifted by 1 period before training. Without this, the model sees the target value it’s supposed to predict embedded in its own features.</p>
+
+<h2 id="impact">Impact</h2>
+
+<ul>
+  <li>5% improvement in forecast accuracy vs prior baseline</li>
+  <li>93% planner adoption rate of AI-ML generated forecasts</li>
+  <li>100+ demand planners trained and onboarded</li>
+  <li>Replaced fully manual Excel-based forecasting process</li>
+  <li>Monthly pipeline handles full 50,000+ SKU catalogue end-to-end</li>
+</ul>
+
+  </div>
+
+  <footer class="post-footer">
+    <div class="project-links">
+      
+      
+    </div>
+    <a href="/projects" class="back-link">← All projects</a>
+  </footer>
+
+</article>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <p class="footer-text">Built by Shubham</p>
+    <p class="footer-hint">
+      <kbd>Shift</kbd> + <kbd>F</kbd> for focus mode &nbsp;·&nbsp;
+      <kbd>Shift</kbd> + <kbd>D</kbd> for diagrams
+    </p>
+  </footer>
+
+  <!-- Mermaid loaded synchronously before main.js so it's available when we call mermaid.run() -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

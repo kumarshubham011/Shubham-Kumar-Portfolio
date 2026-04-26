@@ -3,6 +3,7 @@ layout: post
 title: "How I Built a Production Demand Forecasting Engine for 50,000+ Time-series / SKUs"
 tags: [ML, supply-chain, python, forecasting]
 reading_time: 28
+hide_date: true
 excerpt: "What it actually takes to move from manually generated forecasts to an ML system that planners trust — the data problems, the model selection framework, the backtesting approach, and why adoption matters more than accuracy."
 ---
 
