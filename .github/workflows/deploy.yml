@@ -31,10 +31,13 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2"
-          bundler-cache: true   # caches gems so subsequent builds are faster
+          bundler-cache: false
 
       - name: Add linux platform to Gemfile.lock
         run: bundle lock --add-platform x86_64-linux
+
+      - name: Install gems
+        run: bundle install --jobs 4 --retry 3
 
       - name: Setup Pages
         id: pages
