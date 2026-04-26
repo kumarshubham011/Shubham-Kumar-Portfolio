@@ -29,8 +29,8 @@ description: Thoughts, learnings, and discoveries
         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
       </h3>
       <p class="post-meta">
-        {{ post.date | date: "%B %d, %Y" }}
-        {% if post.reading_time %}· {{ post.reading_time }} min read{% endif %}
+        <!-- {{ post.date | date: "%B %d, %Y" }} -->
+        {% if post.reading_time %} {{ post.reading_time }} min read{% endif %}
         {% if post.tags %}
           &nbsp;·&nbsp;
           {% for tag in post.tags %}

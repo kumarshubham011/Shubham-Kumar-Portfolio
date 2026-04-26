@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    Backorder Predictor (BOP) — Shubham Kumar
+  </title>
+  <meta name="description" content="Forward-looking inventory simulation model that predicts future backorders at SKU × Region × Time granularity — giving supply planners a concrete view of where shortages will emerge before they happen.">
+
+  <!-- Preconnect to external resources we load later -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- Our stylesheet -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Backorder Predictor (BOP) | Shubham Kumar</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Backorder Predictor (BOP)" />
+<meta name="author" content="Shubham Kumar" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Forward-looking inventory simulation model that predicts future backorders at SKU × Region × Time granularity — giving supply planners a concrete view of where shortages will emerge before they happen." />
+<meta property="og:description" content="Forward-looking inventory simulation model that predicts future backorders at SKU × Region × Time granularity — giving supply planners a concrete view of where shortages will emerge before they happen." />
+<link rel="canonical" href="http://localhost:4000/projects/backorder-predictor/" />
+<meta property="og:url" content="http://localhost:4000/projects/backorder-predictor/" />
+<meta property="og:site_name" content="Shubham Kumar" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-26T12:48:21+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Backorder Predictor (BOP)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Shubham Kumar"},"dateModified":"2026-04-26T12:48:21+05:30","datePublished":"2026-04-26T12:48:21+05:30","description":"Forward-looking inventory simulation model that predicts future backorders at SKU × Region × Time granularity — giving supply planners a concrete view of where shortages will emerge before they happen.","headline":"Backorder Predictor (BOP)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/projects/backorder-predictor/"},"url":"http://localhost:4000/projects/backorder-predictor/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+
+  <!-- Focus mode indicator — shows briefly when Shift+F is pressed -->
+  <div id="focus-indicator" aria-hidden="true">Focus Mode</div>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">shubham_kumar</a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/about" class="nav-link">About</a></li>
+        <li><a href="/projects" class="nav-link">Projects</a></li>
+        <li><a href="/blog" class="nav-link">Blog</a></li>
+        <li><a href="/contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Page content ── -->
+  <main class="main">
+    <article class="container">
+
+  <header class="post-header">
+    <h1>Backorder Predictor (BOP)</h1>
+    
+    <div class="tech-stack" style="justify-content: center; margin-top: 1rem;">
+      
+      
+        <span class="tech-tag">Python</span>
+      
+        <span class="tech-tag">Pandas</span>
+      
+        <span class="tech-tag">NumPy</span>
+      
+        <span class="tech-tag">SQL</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content">
+    <h2 id="the-core-idea">The core idea</h2>
+
+<p>A backorder happens when demand outpaces supply. That sounds simple, but predicting <em>when</em> and <em>where</em> it happens requires simulating how inventory actually moves over time — factoring in lead times, demand variability, safety buffers, and incoming supply from multiple sources.</p>
+
+<p>The fundamental equation:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Backorder = Demand − (Available Inventory + Incoming Supply + Allocated Supply + Safety Buffer)
+</code></pre></div></div>
+
+<p>BOP doesn’t compute this as a static snapshot. It simulates how each of those variables evolves across future time periods, so planners know not just <em>if</em> a shortage is coming, but <em>when</em> and <em>how large</em>.</p>
+
+<h2 id="key-inputs">Key inputs</h2>
+
+<p><strong>Demand forecast</strong> — Multi-period projections used to estimate future consumption and sizing requirements.</p>
+
+<p><strong>Current inventory</strong> — Available stock at region level, per SKU.</p>
+
+<p><strong>Incoming supply</strong> — All sources: production outputs, work-in-progress, in-transit shipments, open purchase orders. Only supply arriving within the relevant window is counted.</p>
+
+<p><strong>Lead times</strong> — Total lead time from production to region, plus availability lead time (when stock actually becomes usable). These align supply and demand correctly across time periods.</p>
+
+<p><strong>Safety stock</strong> — Defined in coverage days, converted to quantity using forecast demand. Acts as a buffer against uncertainty.</p>
+
+<p><strong>Global supply pool</strong> — Centrally available supply that can be distributed across regions based on need.</p>
+
+<h2 id="the-simulation-logic">The simulation logic</h2>
+
+<h3 id="1-inventory-projection">1. Inventory projection</h3>
+
+<p>For each future period, the model computes:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Projected Inventory =
+    Current Inventory
+  + Incoming Supply (lead-time adjusted)
+  + Delayed Supply
+  − Adjusted Demand (prorated for time remaining in period)
+  − Existing Backorders
+</code></pre></div></div>
+
+<p>Demand adjustment based on time remaining makes the model responsive to real-time updates — if you’re halfway through the month, you only count half the monthly demand.</p>
+
+<h3 id="2-net-requirement-calculation">2. Net requirement calculation</h3>
+
+<p>For each SKU and region:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Net Requirement =
+    Future Demand (lead-time aligned)
+  − Available Inventory (lead-time aligned)
+  + Safety Stock
+</code></pre></div></div>
+
+<p>Negative results reset to zero — you can’t have a negative shortage.</p>
+
+<h3 id="3-supply-allocation-across-regions">3. Supply allocation across regions</h3>
+
+<p>Central supply is distributed in two steps:</p>
+
+<p><strong>Proportional allocation:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Region Share    = Region Demand / Total Demand
+Allocated Supply = Region Share × Global Supply
+</code></pre></div></div>
+
+<p><strong>Capping:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Allocated Supply ≤ Region Requirement
+</code></pre></div></div>
+<p>No region gets more than it needs, which leaves supply available for regions that actually need it.</p>
+
+<h3 id="4-surplus-redistribution">4. Surplus redistribution</h3>
+
+<p>When total available supply exceeds total requirement:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Surplus = Total Supply − Total Requirement
+</code></pre></div></div>
+<p>The surplus redistributes based on future demand proportions, not current demand — this avoids over-allocating to regions that will need less and under-allocating to those that will need more.</p>
+
+<h3 id="5-backorder-estimation">5. Backorder estimation</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Backorder = Demand − (Inventory + Incoming Supply + Allocated Supply)
+</code></pre></div></div>
+
+<p>Output is at SKU × Region × Time granularity.</p>
+
+<h2 id="end-to-end-flow">End-to-end flow</h2>
+
+<pre><code class="language-mermaid">flowchart TD
+    subgraph INP ["📥 Inputs"]
+        FC["Demand Forecast"]
+        INV["Current Inventory"]
+        SUP["Supply Signals\n&amp; Lead Times"]
+        SS["Safety Stock\nCoverage"]
+    end
+    INP --&gt; ALIGN["⏱️ Time Alignment\nLead-time adjusted windows"]
+    ALIGN --&gt; SIM["📉 Inventory Flow\nSimulation"]
+    SIM --&gt; NET["🧮 Net Requirement\nCalculation"]
+    NET --&gt; ALLOC["🌍 Supply Allocation\nPro-rata across regions"]
+    ALLOC --&gt; SUR["♻️ Surplus\nRedistribution"]
+    SUR --&gt; OUT(["⚠️ Backorder Forecast\nSKU × Region × Period"])
+</code></pre>
+
+<h2 id="what-planners-do-with-it">What planners do with it</h2>
+
+<p>BOP gives planners a concrete, time-phased picture of where inventory will run short. They can intervene — pull forward supply, redirect stock, escalate with procurement — before the backorder materializes. Reacting after the fact costs more and takes longer. BOP is the tool for acting before the fact.</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <div class="project-links">
+      
+      
+    </div>
+    <a href="/projects" class="back-link">← All projects</a>
+  </footer>
+
+</article>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <p class="footer-text">Built by Shubham</p>
+    <p class="footer-hint">
+      <kbd>Shift</kbd> + <kbd>F</kbd> for focus mode &nbsp;·&nbsp;
+      <kbd>Shift</kbd> + <kbd>D</kbd> for diagrams
+    </p>
+  </footer>
+
+  <!-- Mermaid loaded synchronously before main.js so it's available when we call mermaid.run() -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

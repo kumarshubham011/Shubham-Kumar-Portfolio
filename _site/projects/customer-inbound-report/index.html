@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    Customer & Inbound Performance Report — Shubham Kumar
+  </title>
+  <meta name="description" content="Unified view connecting outbound shipments, open customer demand, delivery pipeline, and inbound DC inventory — built around one question: will we hit our shipment target this month?">
+
+  <!-- Preconnect to external resources we load later -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- Our stylesheet -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Customer &amp; Inbound Performance Report | Shubham Kumar</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Customer &amp; Inbound Performance Report" />
+<meta name="author" content="Shubham Kumar" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Unified view connecting outbound shipments, open customer demand, delivery pipeline, and inbound DC inventory — built around one question: will we hit our shipment target this month?" />
+<meta property="og:description" content="Unified view connecting outbound shipments, open customer demand, delivery pipeline, and inbound DC inventory — built around one question: will we hit our shipment target this month?" />
+<link rel="canonical" href="http://localhost:4000/projects/customer-inbound-report/" />
+<meta property="og:url" content="http://localhost:4000/projects/customer-inbound-report/" />
+<meta property="og:site_name" content="Shubham Kumar" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-26T12:48:21+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Customer &amp; Inbound Performance Report" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Shubham Kumar"},"dateModified":"2026-04-26T12:48:21+05:30","datePublished":"2026-04-26T12:48:21+05:30","description":"Unified view connecting outbound shipments, open customer demand, delivery pipeline, and inbound DC inventory — built around one question: will we hit our shipment target this month?","headline":"Customer &amp; Inbound Performance Report","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/projects/customer-inbound-report/"},"url":"http://localhost:4000/projects/customer-inbound-report/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+
+  <!-- Focus mode indicator — shows briefly when Shift+F is pressed -->
+  <div id="focus-indicator" aria-hidden="true">Focus Mode</div>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">shubham_kumar</a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/about" class="nav-link">About</a></li>
+        <li><a href="/projects" class="nav-link">Projects</a></li>
+        <li><a href="/blog" class="nav-link">Blog</a></li>
+        <li><a href="/contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Page content ── -->
+  <main class="main">
+    <article class="container">
+
+  <header class="post-header">
+    <h1>Customer & Inbound Performance Report</h1>
+    
+    <div class="tech-stack" style="justify-content: center; margin-top: 1rem;">
+      
+      
+        <span class="tech-tag">Power BI</span>
+      
+        <span class="tech-tag">SQL</span>
+      
+        <span class="tech-tag">DAX</span>
+      
+        <span class="tech-tag">Python</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content">
+    <h2 id="the-question-this-answers">The question this answers</h2>
+
+<blockquote>
+  <p><em>“Will we be able to meet our outbound shipment targets this month?”</em></p>
+</blockquote>
+
+<p>Simple question. Surprisingly hard to answer when shipments, open orders, delivery pipeline, and inbound inventory all live in different systems and are typically analyzed by different teams.</p>
+
+<p>This report connects all four into one view, so the answer is available in seconds rather than after a multi-system data pull.</p>
+
+<h2 id="the-four-pieces">The four pieces</h2>
+
+<h3 id="shipments-mtd">Shipments (MTD)</h3>
+
+<p>What has actually left the warehouse from the start of month to today. Sourced from ERP material movement data, filtered to customer deliveries only — intercompany transfers and non-target geographies are excluded.</p>
+
+<p><strong>Key metric:</strong> Shipment units month-to-date.</p>
+
+<h3 id="delivery-in-progress">Delivery in progress</h3>
+
+<p>Orders where a delivery has been created but the physical shipment hasn’t completed yet. This is the near-term pipeline — orders that will almost certainly convert to shipments within days.</p>
+
+<p>The filter logic: delivery exists, shipment date is blank, intercompany excluded.</p>
+
+<p><strong>Key insight:</strong> This is the most reliable indicator of short-term shipment recovery.</p>
+
+<h3 id="open-sales-orders">Open sales orders</h3>
+
+<p>Remaining demand that hasn’t been picked up into a delivery yet. Filtered to active orders within the current reporting window — based on revised availability date and GI date.</p>
+
+<p><strong>Key metric:</strong> Open units still to be fulfilled before month-end.</p>
+
+<h3 id="inbound-inventory-to-dcs">Inbound inventory to DCs</h3>
+
+<p>Goods received into distribution centers during the current month. Sourced from material movement data, filtered to goods receipt movement types for specific DC locations.</p>
+
+<p><strong>Key metric:</strong> Units received MTD — feeds into supply availability for open orders.</p>
+
+<h2 id="how-to-read-it">How to read it</h2>
+
+<p>The report is designed around a simple comparison:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Target Outbound
+vs Shipment MTD + Delivery Pipeline + Open Orders
+</code></pre></div></div>
+
+<p>If shipment MTD is low but delivery pipeline is high, recovery is likely — the units are in the system and moving. If both are low and open orders are also thin, the month is at genuine risk.</p>
+
+<p>Inbound supply context sits alongside this to explain whether the issue is demand-side or supply-side.</p>
+
+<h2 id="data-flow">Data flow</h2>
+
+<pre><code class="language-mermaid">flowchart TD
+    ERP["📦 ERP System\nOrders · Deliveries · Movements"] --&gt; CL
+    MD["📋 Master Data\nCustomer · Product · DC"] --&gt; CL
+    CL["🧹 Cleaning &amp; Filtering\nIntercompany removed · Date windows applied"] --&gt; AGG
+    AGG["📊 Aggregation Layer"] --&gt; S1 &amp; S2 &amp; S3 &amp; S4
+    S1["🚚 Shipments\nMTD"]
+    S2["📑 Open\nSales Orders"]
+    S3["📦 Delivery\nPipeline"]
+    S4["📥 Inbound\nto DCs"]
+    S1 &amp; S2 &amp; S3 &amp; S4 --&gt; MET["📈 Target vs Actual\nRecovery Signal · Pipeline Strength"]
+    MET --&gt; DASH["📊 Dashboard"]
+</code></pre>
+
+<h2 id="why-it-matters">Why it matters</h2>
+
+<p>Shipments, open orders, deliveries, and inbound supply are usually looked at separately — by different people, in different reports, at different times. The delay in connecting them means that by the time someone spots a problem, the window to fix it has often closed.</p>
+
+<p>This report was built to close that gap. Everything in one place, filtered consistently, updated on the same cadence.</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <div class="project-links">
+      
+      
+    </div>
+    <a href="/projects" class="back-link">← All projects</a>
+  </footer>
+
+</article>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <p class="footer-text">Built by Shubham</p>
+    <p class="footer-hint">
+      <kbd>Shift</kbd> + <kbd>F</kbd> for focus mode &nbsp;·&nbsp;
+      <kbd>Shift</kbd> + <kbd>D</kbd> for diagrams
+    </p>
+  </footer>
+
+  <!-- Mermaid loaded synchronously before main.js so it's available when we call mermaid.run() -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

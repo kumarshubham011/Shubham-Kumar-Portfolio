@@ -5,19 +5,19 @@ title: null
 
 <div class="container">
 
-  <!-- Terminal-style hero -->
+  <!-- Terminal hero -->
   <section class="hero">
     <div class="hero-terminal">
       <div class="hero-terminal-header">
         <span class="terminal-dot terminal-dot--red"></span>
         <span class="terminal-dot terminal-dot--yellow"></span>
         <span class="terminal-dot terminal-dot--green"></span>
-        <span class="terminal-title">bash — 80×24</span>
+        <span class="terminal-title">Overview: ~</span>
       </div>
       <div class="hero-terminal-body">
         <div class="hero-line">
           <span class="hero-prompt">$</span>
-          <span class="hero-command">whoami</span>
+          <span class="hero-command">who_am_i</span>
         </div>
         <div class="hero-name">{{ site.author.name }}</div>
 
@@ -25,15 +25,26 @@ title: null
           <span class="hero-prompt">$</span>
           <span class="hero-command">cat role.txt</span>
         </div>
-        <div class="hero-title">Executive, Worldwide Supply Chain @ {{ site.author.company }}</div>
+        <div class="hero-title">AI Decision Science Analyst @ {{ site.author.company }}</div>
 
         <div class="hero-line">
           <span class="hero-prompt">$</span>
-          <span class="hero-command">echo $INTERESTS</span>
+          <span class="hero-command">echo $STACK</span>
         </div>
-        <div class="hero-tagline">ML-driven Demand Forecasting · Supply Analytics · Data Engineering · Python</div>
+        <div class="hero-tagline">Decision Science &nbsp;·&nbsp; ML Modeling &nbsp;·&nbsp; Data Engineering &nbsp;·&nbsp; Python &nbsp;·&nbsp; GenAI</div>
 
-        <div class="hero-line" style="margin-top: 1.5rem;">
+        <div class="hero-line">
+          <span class="hero-prompt">$</span>
+          <span class="hero-command">ls work/</span>
+        </div>
+        <div class="hero-ls">
+          <span class="ls-dir">order-analytics/</span>
+          <span class="ls-dir">ml-models/</span>
+          <span class="ls-dir">data-pipelines/</span>
+          <span class="ls-file">insights.py</span>
+        </div>
+
+        <div class="hero-line">
           <span class="hero-prompt">$</span>
           <span class="cursor"></span>
         </div>
@@ -85,8 +96,8 @@ title: null
     <article class="post-card">
       <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
       <p class="post-meta">
-        {{ post.date | date: "%Y-%m-%d" }}
-        {% if post.reading_time %}· {{ post.reading_time }} min read{% endif %}
+        <!-- {{ post.date | date: "%Y-%m-%d" }} -->
+        {% if post.reading_time %} {{ post.reading_time }} min read{% endif %}
       </p>
       <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
     </article>

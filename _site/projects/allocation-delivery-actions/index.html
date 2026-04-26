@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    Allocation & Delivery Actions — Shubham Kumar
+  </title>
+  <meta name="description" content="War-room execution tool for daily operations teams — surfaces where inventory can be allocated today, which orders are ready for delivery creation, and where distribution backorders can be closed right now.">
+
+  <!-- Preconnect to external resources we load later -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- Our stylesheet -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Allocation &amp; Delivery Actions | Shubham Kumar</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Allocation &amp; Delivery Actions" />
+<meta name="author" content="Shubham Kumar" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="War-room execution tool for daily operations teams — surfaces where inventory can be allocated today, which orders are ready for delivery creation, and where distribution backorders can be closed right now." />
+<meta property="og:description" content="War-room execution tool for daily operations teams — surfaces where inventory can be allocated today, which orders are ready for delivery creation, and where distribution backorders can be closed right now." />
+<link rel="canonical" href="http://localhost:4000/projects/allocation-delivery-actions/" />
+<meta property="og:url" content="http://localhost:4000/projects/allocation-delivery-actions/" />
+<meta property="og:site_name" content="Shubham Kumar" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-26T12:48:21+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Allocation &amp; Delivery Actions" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Shubham Kumar"},"dateModified":"2026-04-26T12:48:21+05:30","datePublished":"2026-04-26T12:48:21+05:30","description":"War-room execution tool for daily operations teams — surfaces where inventory can be allocated today, which orders are ready for delivery creation, and where distribution backorders can be closed right now.","headline":"Allocation &amp; Delivery Actions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/projects/allocation-delivery-actions/"},"url":"http://localhost:4000/projects/allocation-delivery-actions/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+
+  <!-- Focus mode indicator — shows briefly when Shift+F is pressed -->
+  <div id="focus-indicator" aria-hidden="true">Focus Mode</div>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">shubham_kumar</a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/about" class="nav-link">About</a></li>
+        <li><a href="/projects" class="nav-link">Projects</a></li>
+        <li><a href="/blog" class="nav-link">Blog</a></li>
+        <li><a href="/contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Page content ── -->
+  <main class="main">
+    <article class="container">
+
+  <header class="post-header">
+    <h1>Allocation & Delivery Actions</h1>
+    
+    <div class="tech-stack" style="justify-content: center; margin-top: 1rem;">
+      
+      
+        <span class="tech-tag">Python</span>
+      
+        <span class="tech-tag">SQL</span>
+      
+        <span class="tech-tag">Power BI</span>
+      
+        <span class="tech-tag">DAX</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content">
+    <h2 id="the-problem">The problem</h2>
+
+<p>Knowing you have backorders is one thing. Knowing <em>what you can actually do about them today</em> is different.</p>
+
+<p>Inventory sits at a site without a delivery against it. Open backorders could be partially filled if someone looked at the allocation picture properly. Orders are confirmed and allocated but nobody has created the delivery document. The information to fix all of this exists — it’s just scattered across order tables, inventory records, and delivery data that nobody is looking at together.</p>
+
+<p>This tool pulls it into one place and tells execution teams exactly where they can act.</p>
+
+<h2 id="what-it-does">What it does</h2>
+
+<h3 id="backorder-visibility">Backorder visibility</h3>
+
+<p>Tracks both supply backorders (no inventory available) and distribution backorders (inventory exists but isn’t reaching the customer). The distinction matters — the required action is completely different for each.</p>
+
+<h3 id="allocation-opportunity-identification">Allocation opportunity identification</h3>
+
+<p>For each SKU-Site, the tool checks whether inventory is available and whether there are open orders waiting for it. If stock is sitting unallocated against demand that already exists, that’s a gap that can be closed today.</p>
+
+<h3 id="delivery-creation-gaps">Delivery creation gaps</h3>
+
+<p>Orders that are confirmed and allocated but don’t yet have an outbound delivery document. These are the fastest wins: no supply constraint, no allocation issue — just an execution step that hasn’t happened yet. Catching these before the day’s cutoff directly moves revenue.</p>
+
+<h2 id="data-flow">Data flow</h2>
+
+<pre><code class="language-mermaid">flowchart TD
+    subgraph SRC ["📂 Data Sources"]
+        BO["Backorder Data"]
+        INV["Inventory Records"]
+        SO["Sales Orders\n&amp; Deliveries"]
+    end
+    SRC --&gt; STD["🔧 Standardization\n&amp; Source Mapping"]
+    STD --&gt; OPP["🔍 Opportunity\nIdentification Layer"]
+    OPP --&gt; AL["📦 Allocation\nOpportunities\nStock vs waiting orders"]
+    OPP --&gt; DC["🚚 Delivery Creation\nGaps\nAllocated, no delivery yet"]
+    AL &amp; DC --&gt; INS["💡 Prioritized by\nRevenue Impact"]
+    INS --&gt; DASH["📊 War-room\nDashboard"]
+    DASH --&gt; OPS(["⚡ Operations Team\nExecutes Today"])
+</code></pre>
+
+<h2 id="who-uses-it">Who uses it</h2>
+
+<p>Daily execution and operations teams — the people responsible for converting open backlog into shipments each day. The output isn’t for analysis; it’s for action. Every row has a clear next step attached to it.</p>
+
+<h2 id="impact">Impact</h2>
+
+<ul>
+  <li>Distribution backorders reduced through faster inventory-to-order matching</li>
+  <li>Delivery creation gaps caught before end-of-day cutoffs</li>
+  <li>Revenue realization accelerated by removing execution bottlenecks</li>
+  <li>Reduced manual coordination between planning, warehouse, and logistics teams</li>
+</ul>
+
+  </div>
+
+  <footer class="post-footer">
+    <div class="project-links">
+      
+      
+    </div>
+    <a href="/projects" class="back-link">← All projects</a>
+  </footer>
+
+</article>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <p class="footer-text">Built by Shubham</p>
+    <p class="footer-hint">
+      <kbd>Shift</kbd> + <kbd>F</kbd> for focus mode &nbsp;·&nbsp;
+      <kbd>Shift</kbd> + <kbd>D</kbd> for diagrams
+    </p>
+  </footer>
+
+  <!-- Mermaid loaded synchronously before main.js so it's available when we call mermaid.run() -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

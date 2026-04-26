@@ -5,8 +5,8 @@
 # ─────────────────────────────────────────────
 
 title: "Shubham Kumar"
-tagline: "Supply Chain & ML Engineer"
-description: "Building ML systems and analytics solutions at Becton Dickinson."
+tagline: "AI Decision Science Analyst"
+description: "Building AI-powered decision systems and ML solutions at Accenture."
 url: "https://kumarshubham011.github.io"   # change to your GitHub Pages URL
 baseurl: ""                                 # leave empty unless hosting in a subfolder
 
@@ -17,8 +17,8 @@ author:
   github: "https://github.com/kumarshubham011"
   linkedin: "https://linkedin.com/in/shubham4kumar"
   leetcode: "https://leetcode.com/u/kumar_shubham14/"
-  company: "Becton Dickinson"
-  company_url: "https://www.bd.com"
+  company: "Accenture"
+  company_url: "https://www.accenture.com"
   location: "New Delhi, India"
 
 # ─────────────────────────────────────────────
