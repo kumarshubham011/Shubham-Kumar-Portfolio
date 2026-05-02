@@ -67,3 +67,6 @@ exclude:
   - node_modules
   - README.md
   - "*.sh"
+  - venv/
+  - .venv/
+  - .claude/

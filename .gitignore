@@ -10,6 +10,14 @@ _site/
 .bundle/
 vendor/
 
+# Python virtualenv
+venv/
+.venv/
+__pycache__/
+
+# Editor temp files
+*.tmp.*
+
 # OS
 .DS_Store
 Thumbs.db
