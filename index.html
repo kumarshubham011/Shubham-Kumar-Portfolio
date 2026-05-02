@@ -61,6 +61,25 @@ title: null
     </div>
   </section>
 
+  <!-- Recent posts -->
+  {% assign recent = site.posts | limit: 3 %}
+  {% if recent.size > 0 %}
+  <section class="section">
+    <h2 class="section-title">Recent Learnings</h2>
+    {% for post in recent %}
+    <article class="post-card">
+      <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+      <p class="post-meta">
+        <!-- {{ post.date | date: "%Y-%m-%d" }} -->
+        {% if post.reading_time %} {{ post.reading_time }} min read{% endif %}
+      </p>
+      <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+    </article>
+    {% endfor %}
+    <p class="mt-4"><a href="{{ '/blog' | relative_url }}">Read all posts →</a></p>
+  </section>
+  {% endif %}
+
   <!-- Featured projects -->
   {% assign featured = site.projects | where: "featured", true | sort: "order" %}
   {% if featured.size > 0 %}
@@ -85,25 +104,6 @@ title: null
     </article>
     {% endfor %}
     <p class="mt-4"><a href="{{ '/projects' | relative_url }}">View all projects →</a></p>
-  </section>
-  {% endif %}
-
-  <!-- Recent posts -->
-  {% assign recent = site.posts | limit: 3 %}
-  {% if recent.size > 0 %}
-  <section class="section">
-    <h2 class="section-title">Recent Learnings</h2>
-    {% for post in recent %}
-    <article class="post-card">
-      <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-      <p class="post-meta">
-        <!-- {{ post.date | date: "%Y-%m-%d" }} -->
-        {% if post.reading_time %} {{ post.reading_time }} min read{% endif %}
-      </p>
-      <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-    </article>
-    {% endfor %}
-    <p class="mt-4"><a href="{{ '/blog' | relative_url }}">Read all posts →</a></p>
   </section>
   {% endif %}
 

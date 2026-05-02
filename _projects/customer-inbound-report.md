@@ -4,7 +4,7 @@ title: "Customer & Inbound Performance Report"
 description: "Unified view connecting outbound shipments, open customer demand, delivery pipeline, and inbound DC inventory — built around one question: will we hit our shipment target this month?"
 tech_stack: "Power BI, SQL, DAX, Python"
 featured: true
-order: 4
+order: 5
 ---
 
 ## The question this answers

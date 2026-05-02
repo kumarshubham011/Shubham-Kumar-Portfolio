@@ -4,7 +4,7 @@ title: "Order Sensing Dashboard"
 description: "Short-term demand intelligence tool that detects real shifts in customer ordering behavior before they show up in the forecast — catching spikes, drops, and volatility as they happen."
 tech_stack: "Python, SQL, Power BI, DAX"
 featured: true
-order: 2
+order: 7
 ---
 
 ## The problem with forecasts

@@ -4,7 +4,7 @@ title: "WIMO — Where Is My Order"
 description: "Centralized analytics platform for end-to-end order lifecycle visibility — backorder tracking, ATP reliability scoring, revenue landing estimation, and risk segmentation across the full order pipeline."
 tech_stack: "Python, SQL, Power BI, Azure Data Lake, DAX"
 featured: true
-order: 1
+order: 8
 ---
 
 ## The problem

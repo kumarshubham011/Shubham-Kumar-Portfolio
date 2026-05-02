@@ -4,7 +4,7 @@ title: "MAVA — Manual Allocation Value Add"
 description: "Analytical decision-support tool that evaluates which SKU-Site combinations under manual allocation can be safely released — reducing operational overhead without hurting service levels."
 tech_stack: "Python, SQL, Power BI, DAX"
 featured: true
-order: 6
+order: 4
 ---
 
 ## The problem

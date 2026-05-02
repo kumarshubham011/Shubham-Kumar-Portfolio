@@ -4,7 +4,7 @@ title: "Allocation & Delivery Actions"
 description: "War-room execution tool for daily operations teams — surfaces where inventory can be allocated today, which orders are ready for delivery creation, and where distribution backorders can be closed right now."
 tech_stack: "Python, SQL, Power BI, DAX"
 featured: true
-order: 5
+order: 6
 ---
 
 ## The problem

@@ -4,7 +4,7 @@ title: "Seasonal Loss Prevention System"
 description: "Automated decision system that monitors 500+ seasonal SKUs daily across 9+ manufacturing plants — recommending production splits, cuts, and repacks before end-of-season deadlines to stop inventory becoming unrecoverable waste."
 tech_stack: "Python, SQL · Exasol, Pandas, Kinaxis, SAP S/4, Decision Intelligence Platform"
 featured: true
-order: 7
+order: 1
 ---
 
 ## The problem

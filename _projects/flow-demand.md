@@ -4,7 +4,7 @@ title: "Flow Demand — Forecasting Pipeline"
 description: "End-to-end ML forecasting system that replaced manual Excel-based forecasts for 50,000+ SKUs — combining ABC×XYZ segmentation, multi-model selection, and expanding-window backtesting to achieve 93% planner adoption."
 tech_stack: "Python, XGBoost, LightGBM, Pandas, SQL, Azure"
 featured: true
-order: 8
+order: 2
 ---
 
 ## What it does
